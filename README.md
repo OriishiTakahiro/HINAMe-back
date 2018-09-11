@@ -26,7 +26,7 @@ URL prefix: http://api/\<RESOURCE\>
 | COLUMN | TYPE | OPTION | DESCRIPTION |
 |:------:|:-----|:-------|:------------|
 | id     | int  | primary key, auto increment ||
-| name   | text(256) | not null ||
+| name   | varchar(256) | not null ||
 | latitude   | float | not null ||
 | longitude  | float | not null ||
 | state  | enum('safe', 'filled', 'danger', 'unavailable') | not null, default='safe' ||
@@ -36,8 +36,8 @@ URL prefix: http://api/\<RESOURCE\>
 |:------:|:-----|:-------|:------------|
 | id     | int  | primary key, auto increment ||
 | shelter_id  | int | not null, unique ||
-| html   | text(2048) | not null, default='\<h3\>New boards\</h3\>' ||
-| update_at  | text(2048) | not null, default=current_timestamp on update current_timestamp ||
+| html   | text | not null, default='\<h3\>ようこそ\</h3\>' ||
+| update_at  | timestamp | not null, default=now() on update now() ||
 
 ### commments
 | COLUMN | TYPE | OPTION | DESCRIPTION |
@@ -45,7 +45,7 @@ URL prefix: http://api/\<RESOURCE\>
 | id     | int  | primary key, auto increment ||
 | board_id  | int | not null ||
 | parent_id  | int | ||
-| title  | text(256) | not null,  default='タイトルなし' ||
-| author | text(256) | not null,  default='住民' ||
-| body   | text(1024) | not null ||
-| updated_at   | timestamp | not null, default=current_timestamp on update current_timestamp ||
+| title  | varchar(256) | not null,  default='タイトルなし' ||
+| author | varchar(256) | not null,  default='住民' ||
+| body   | text | not null ||
+| updated_at   | timestamp | not null, default=now() on update now() ||
