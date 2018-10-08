@@ -1,0 +1,12 @@
+mariaDB:
+  image: mariadb
+  restart: always
+  environment:
+    - MYSQL_DATABASE=hiname
+    - MYSQL_USER=admin
+    - MYSQL_PASSWORD=passwd
+    - MYSQL_ROOT_PASSWORD=passwd
+      #ports:
+      #- "3306:3306"
+  volumes:
+    - "./conf:/etc/mysql/conf.d"
