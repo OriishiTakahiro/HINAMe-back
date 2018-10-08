@@ -31,13 +31,13 @@ func (board Board) CreateTableIfNotExists() error {
 }
 
 func (board Board) GetHTML(shelterID int) (html string, e error) {
-	sql := ` SELECT (html) FROM hiname.boards WHERE ? = shelter_id;`
+	sql := ` SELECT (html) FROM hiname.boards WHERE shelter_id = ?;`
 	e = i.DB.Get(&html, sql, shelterID)
 	return
 }
 
 func (board Board) GetIDShelterID(afterFrom time.Time) (boards []Board, e error) {
-	sql := ` SELECT (id, shelter_id) FROM hiname.boards (html) WHERE ? > updated_at;`
+	sql := `SELECT (id, shelter_id) FROM hiname.boards (html) WHERE ? > updated_at;`
 	e = i.DB.Select(&boards, sql, afterFrom.Format("2006-01-02 15:04:05"))
 	if boards == nil {
 		boards = []Board{}

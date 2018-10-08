@@ -9,17 +9,17 @@ import (
 	sc "strconv"
 )
 
-// GetComments get all comments by boardID
+// GetComments get all comments by shelterID
 func GetComments(c *gin.Context) {
-	boardID, err := sc.Atoi(c.Param("board_id"))
+	shelterID, err := sc.Atoi(c.Param("shelter_id"))
 	if err != nil {
-		msg := fmt.Sprintf("Parameters has invalid type %s", c.Param("board_id"))
+		msg := fmt.Sprintf("Parameters has invalid type %s", c.Param("shelter_id"))
 		log.Println(msg)
 		c.String(http.StatusBadRequest, msg)
 		return
 	}
 
-	comments, err := d.Comment{}.GetByBoardID(boardID)
+	comments, err := d.Comment{}.GetByShelterID(shelterID)
 	if err != nil {
 		log.Println(err)
 		c.String(http.StatusInternalServerError, "Request is failed.")
@@ -57,9 +57,9 @@ func UploadComment(c *gin.Context) {
 		Body   string `json:"body"`
 	}
 
-	boardID, err := sc.Atoi(c.Param("board_id"))
+	shelterID, err := sc.Atoi(c.Param("shelter_id"))
 	if err != nil {
-		msg := fmt.Sprintf("Parameters has invalid type %s", c.Param("board_id"))
+		msg := fmt.Sprintf("Parameters has invalid type %s", c.Param("shelter_id"))
 		log.Println(msg)
 		c.String(http.StatusBadRequest, msg)
 		return
@@ -76,7 +76,7 @@ func UploadComment(c *gin.Context) {
 		return
 	}
 
-	err = d.Comment{}.Upload(boardID, parentID, params.Title, params.Author, params.Body)
+	err = d.Comment{}.Upload(shelterID, parentID, params.Title, params.Author, params.Body)
 	if err != nil {
 		log.Println(err)
 		c.String(http.StatusInternalServerError, "Response is failed")

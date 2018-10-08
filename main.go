@@ -4,7 +4,9 @@ import (
 	a "github.com/OriishiTakahiro/HINAMe-back/applications"
 	d "github.com/OriishiTakahiro/HINAMe-back/domains"
 	i "github.com/OriishiTakahiro/HINAMe-back/infrastructures"
+	m "github.com/OriishiTakahiro/HINAMe-back/middlewares"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"os"
 )
 
@@ -16,6 +18,7 @@ func main() {
 	prepareTables()
 
 	router := gin.Default()
+	router.Use(m.CORSMiddleware())
 
 	shelterGroup := router.Group("/api/shelter")
 	{
@@ -31,17 +34,22 @@ func main() {
 	}
 	commentGroup := router.Group("/api/comment")
 	{
-		commentGroup.GET("/by_board_id/:board_id", a.GetComments)
+		commentGroup.GET("/by_shelter_id/:shelter_id", a.GetComments)
 		commentGroup.GET("/reply/:parent_id", a.GetReplies)
-		commentGroup.POST("/:board_id/:parent_id", a.UploadComment)
+		commentGroup.POST("/:shelter_id/:parent_id", a.UploadComment)
 		//commentGroup.PUT("/:id", a.UpdateComment)
 		//commentGroup.DELETE("/:id", a.DeleteComment)
 	}
+
+	router.GET("/health", func(c *gin.Context) {
+		c.String(http.StatusOK, "Health OK")
+	})
 
 	port, ok := os.LookupEnv("PORT")
 	if ok {
 		router.Run(":" + port)
 	}
+
 	router.Run()
 }
 
